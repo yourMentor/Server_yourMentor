@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "rlfls6691",
-    "database": "nodebird",
+    "database": "your_mentor",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

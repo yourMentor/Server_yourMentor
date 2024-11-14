@@ -3,14 +3,14 @@ const Sequelize = require('sequelize');
 class User extends Sequelize.Model {
   static initiate(sequelize) {
     User.init({
-      nick: { //닉네임 작성
-        type: Sequelize.STRING(15),
-        allowNull: false,
-      },
       email: {
         type: Sequelize.STRING(40),
         allowNull: true,
         unique: true,
+      },
+      nick: {
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       password: {
         type: Sequelize.STRING(100),

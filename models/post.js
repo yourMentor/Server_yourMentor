@@ -3,11 +3,15 @@ const Sequelize = require('sequelize');
 class Post extends Sequelize.Model {
   static initiate(sequelize) {
     Post.init({
-      content: { //내용
+      post_nick: {
+        type: Sequelize.STRING(15),
+        allowNull: false,
+      },
+      content: {
         type: Sequelize.STRING(140),
         allowNull: false,
       },
-      img: { //이미지
+      img: {
         type: Sequelize.STRING(200),
         allowNull: true,
       },
@@ -26,6 +30,7 @@ class Post extends Sequelize.Model {
   static associate(db) {
     db.Post.belongsTo(db.User);
     db.Post.belongsToMany(db.Hashtag, {through: 'PostHashtag'});
+    db.Post.hasMany(db.Comment, { foreignKey: 'postId', sourceKey: 'id' });
   }
 }
 

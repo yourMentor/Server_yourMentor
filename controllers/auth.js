@@ -2,29 +2,33 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const User = require('../models/user');
 
-exports.join = async (req, res, next) => {
+exports.join = async (req, res) => {
   const { email, nick, password } = req.body;
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
-      return res.redirect('/join?error=exist');
+      return res.status(400).json({ success: false, message: 'User already exists' });
     }
+    
     const hash = await bcrypt.hash(password, 12);
     await User.create({
       email,
       nick,
       password: hash,
     });
-    return res.json({
-      status: 200,
-      message: "회원가입 성공!",
-      data: {
-        
+    
+    return res.status(201).json({ 
+      success: true,
+      message: 'User created successfully' ,
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        nick: newUser.nick,
       }
     });
   } catch (error) {
     console.error(error);
-    return next(error);
+    return res.status(500).json({ success: false, message: error.message });
   }
 }
 
@@ -35,29 +39,20 @@ exports.login = (req, res, next) => {
       return next(authError);
     }
     if (!user) {
-      return res.redirect(`/?error=${info.message}`);
+      return res.status(401).json({ success: false, message: info.message });
     }
     return req.login(user, (loginError) => {
       if (loginError) {
         console.error(loginError);
         return next(loginError);
       }
-      return res.json({
-        status: 200,
-        message: "로그인 성공!",
-        data: {
-          
-        }
-      });
+      return res.status(200).json({ success: true, message: 'Login successful', user });
     });
-  })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
+  })(req, res, next);
 };
 
 exports.logout = (req, res) => {
   req.logout(() => {
-    resres.json({
-      status: 200,
-      message: "로그아웃 성공!"
-    });
+    return res.status(200).json({ success: true, message: 'Logout successful' });
   });
 };

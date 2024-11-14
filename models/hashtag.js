@@ -4,7 +4,7 @@ class Hashtag extends Sequelize.Model {
   static initiate(sequelize) {
     Hashtag.init({
       title: {
-        type: Sequelize.STRING(15), //15글자 제한
+        type: Sequelize.STRING(15),
         allowNull: false,
         unique: true,
       },

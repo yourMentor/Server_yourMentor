@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
 const { Domain, User } = require('../models');
 
 exports.createToken = async (req, res) => {

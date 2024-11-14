@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
 
 exports.join = async (req, res) => {
   const { email, nick, password } = req.body;
@@ -17,11 +18,11 @@ exports.join = async (req, res) => {
     });
     
     // JWT 발급
-    // const token = jwt.sign(
-    //   { id: newUser.id, nick: newUser.nick },
-    //   process.env.JWT_SECRET,
-    //   { expiresIn: '1h', issuer: 'your-app-name' }
-    // );
+    const token = jwt.sign(
+      { id: newUser.id, nick: newUser.nick },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h', issuer: 'your-app-name' }
+    );
     
     return res.status(201).json({
       success: true,
@@ -31,7 +32,7 @@ exports.join = async (req, res) => {
         email: newUser.email,
         nick: newUser.nick,
       },
-      // token,  // 토큰을 함께 반환
+      token,  // 토큰을 함께 반환
     });
   } catch (error) {
     console.error(error);

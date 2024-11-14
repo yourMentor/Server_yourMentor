@@ -1,19 +1,8 @@
 const { User, Post, Hashtag } = require('../models'); // User, Post, Hashtag 모델을 가져옴
 
-// 프로필 페이지를 렌더링하는 함수 (JSON 반환)
-exports.renderProfile = (req, res) => {
-  res.status(200).json({ success: true, title: '내 정보 - NodeBird' });
-};
-
-// 회원가입 페이지를 렌더링하는 함수 (JSON 반환)
-exports.renderJoin = (req, res) => {
-  res.status(200).json({ success: true, title: '회원가입 - NodeBird' });
-};
-
-// 메인 페이지를 렌더링하는 함수 (게시물 가져오기 후 JSON 반환)
+// 모든 게시물을 가져옴
 exports.renderMain = async (req, res, next) => {
   try {
-    // 모든 게시물을 가져옴
     const posts = await Post.findAll({
       include: { // Post에 연결된 User 모델의 정보 포함
         model: User,
@@ -23,10 +12,20 @@ exports.renderMain = async (req, res, next) => {
     });
 
     // JSON 형식으로 게시물 데이터 반환
+    const twits = posts.map(post => ({
+      id: post.id,
+      content: post.content,
+      createdAt: post.createdAt,
+      user: {
+        id: post.User.id,
+        nick: post.User.nick,
+      },
+    }));
+
     res.status(200).json({
       success: true,
       title: 'NodeBird',
-      twits: posts,
+      twits: twits, // 게시물 정보를 리스트 형식으로 반환
     });
   } catch (err) {
     console.error(err); // 오류 발생 시 콘솔에 출력
@@ -34,7 +33,7 @@ exports.renderMain = async (req, res, next) => {
   }
 };
 
-// 해시태그 검색 결과 페이지를 렌더링하는 함수 (검색된 게시물 JSON 반환)
+// 해시태그 검색 결과 반환
 exports.renderHashtag = async (req, res, next) => {
   const query = req.query.hashtag; // 쿼리스트링에서 'hashtag' 키의 값을 가져옴
   if (!query) {
@@ -50,10 +49,20 @@ exports.renderHashtag = async (req, res, next) => {
     }
 
     // 검색된 게시물 데이터를 JSON 형식으로 반환
+    const twits = posts.map(post => ({
+      id: post.id,
+      content: post.content,
+      createdAt: post.createdAt,
+      user: {
+        id: post.User.id,
+        nick: post.User.nick,
+      },
+    }));
+
     return res.status(200).json({
       success: true,
       title: `${query} | NodeBird`,
-      twits: posts,
+      twits: twits, // 게시물 정보를 리스트 형식으로 반환
     });
   } catch (error) {
     console.error(error); // 오류 발생 시 콘솔에 출력

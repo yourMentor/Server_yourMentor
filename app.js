@@ -13,6 +13,7 @@ const pageRouter = require('./routes/page');
 const authRouter = require('./routes/auth');
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
+const commentRouter = require('./routes/comment');
 const { sequelize } = require('./models');
 const passportConfig = require('./passport');
 
@@ -58,6 +59,7 @@ app.use('/auth', authRouter);
 app.use('/post', postRouter);
 app.use('/user', userRouter);
 app.use('/token', tokenRouter);
+app.use('/comment', commentRouter);
 
 // 404 에러 핸들링 (라우터가 없는 경우)
 app.use((req, res, next) => {

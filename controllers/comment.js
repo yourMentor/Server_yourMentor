@@ -42,12 +42,19 @@ exports.getComment = async (req, res) => {
       ],
     });
 
-    res.status(200).json(comments);
+    // 모든 댓글을 리스트 형식으로 변환
+    const commentList = comments.map(comment => ({
+      content: comment.content,
+      nick: comment.User ? comment.User.nick : null,
+    }));
+
+    res.status(200).json(commentList);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error fetching comments' });
   }
 };
+
 
 // 댓글 수정 (Update)
 exports.updateComment = async (req, res) => {

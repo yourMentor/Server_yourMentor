@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Post = require('../models/post');
 const bcrypt = require('bcrypt');
 
 exports.follow = async (req, res, next) => {
@@ -54,9 +55,15 @@ exports.getUserInfo = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    // 유저 정보를 조회 (비밀번호 필드는 제외)
+    // 유저 정보와 함께 작성한 게시글 목록 조회
     const user = await User.findByPk(userId, {
-      attributes: { exclude: ['password'] },
+      attributes: { exclude: ['password'] }, // 비밀번호 제외
+      include: [
+        {
+          model: Post,
+          attributes: ['id', 'post_nick', 'content', 'img', 'createdAt'], // 게시글의 필요한 필드만 선택
+        },
+      ],
     });
 
     if (!user) {
@@ -67,5 +74,19 @@ exports.getUserInfo = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error fetching user information' });
+  }
+};
+
+// 전체 유저 조회 API
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: { exclude: ['password'] }, // 비밀번호 제외
+    });
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching all users' });
   }
 };

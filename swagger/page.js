@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /page:
+ * /:
  *   get:
  *     summary: 모든 게시물 조회
  *     description: 등록된 모든 게시물을 최신순으로 조회합니다.
@@ -69,6 +69,83 @@
  *                   type: string
  *                   example: "Internal Server Error"
  */
+
+/**
+ * @swagger
+ * /post/{postId}:
+ *   get:
+ *     summary: 특정 게시물 조회
+ *     description: 게시물 ID를 통해 특정 게시물을 조회합니다.
+ *     tags: [Post]
+ *     parameters:
+ *       - in: path
+ *         name: postId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: 조회할 게시물의 ID
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: 게시물 조회 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 post:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     content:
+ *                       type: string
+ *                       example: "This is a sample post"
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-11-20T12:00:00.000Z"
+ *                     user:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: integer
+ *                           example: 1
+ *                         nick:
+ *                           type: string
+ *                           example: "johndoe"
+ *       404:
+ *         description: 게시물을 찾을 수 없음
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Post not found"
+ *       500:
+ *         description: 서버 에러
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+
 
 /**
  * @swagger

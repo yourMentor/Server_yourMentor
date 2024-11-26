@@ -8,3 +8,17 @@
 {"level":"error","message":"GET /user/get-all 라우터가 없습니다."}
 {"level":"info","message":"hello"}
 {"level":"error","message":"GET /user/get-all 라우터가 없습니다."}
+{"level":"info","message":"hello"}
+{"level":"error","message":"GET /auth/login 라우터가 없습니다."}
+{"level":"info","message":"hello"}
+{"level":"error","message":"GET /favicon.ico 라우터가 없습니다."}
+{"level":"info","message":"hello"}
+{"level":"error","message":"GET /page 라우터가 없습니다."}
+{"level":"info","message":"hello"}
+{"level":"error","message":"GET /page 라우터가 없습니다."}
+{"level":"info","message":"hello"}
+{"level":"error","message":"GET /page 라우터가 없습니다."}
+{"level":"info","message":"hello"}
+{"level":"error","message":"POST / 라우터가 없습니다."}
+{"level":"info","message":"hello"}
+{"level":"error","message":"GET /post 라우터가 없습니다."}

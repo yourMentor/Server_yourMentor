@@ -16,6 +16,7 @@ router.use((req, res, next) => {
 // GET /page
 router.get('/', renderMain);
 
+
 // GET /page/hashtag
 router.get('/hashtag', renderHashtag);
 

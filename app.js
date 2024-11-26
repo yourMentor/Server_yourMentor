@@ -56,6 +56,7 @@ if (process.env.NODE_ENV === 'production') {
     helmet({
       contentSecurityPolicy: false,
       crossOriginEmbedderPolicy: false,
+      crossOriginResourcePolicy: false,
     })
   );
   app.use(hpp());
@@ -77,10 +78,15 @@ const sessionOption = {
   secret: process.env.COOKIE_SECRET,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    // secure: process.env.NODE_ENV === 'production',
+    secure: false,
   },
   store: new RedisStore({ client: redisClient }),
 };
+if (process.env.NODE_ENV === 'production') {
+  sessionOption.proxy = true;
+  // sessionOption.cookie.secure = true;
+}
 app.use(session(sessionOption));
 
 app.use(passport.initialize());
@@ -114,9 +120,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(app.get('port'), '0.0.0.0', () => {
-  console.log(`http://localhost:${app.get('port')}에서 대기중`);
-});
+// app.listen(app.get('port'), '0.0.0.0', () => {
+//   console.log(`http://localhost:${app.get('port')}에서 대기중`);
+// });
+
+module.exports = app;
 
 //로컬
 // app.listen(app.get('port'), () => {

@@ -1,6 +1,6 @@
 const express = require('express');
 const {
-  renderHashtag, renderMain
+  renderHashtag, renderMain, getPostWithComments
 } = require('../controllers/page');
 
 const router = express.Router();
@@ -13,11 +13,14 @@ router.use((req, res, next) => {
   next();
 });
 
-// GET /page
+// GET 
 router.get('/', renderMain);
 
 
-// GET /page/hashtag
+// GET /hashtag
 router.get('/hashtag', renderHashtag);
+
+// GET /{id}
+router.get('/:id', getPostWithComments);
 
 module.exports = router;

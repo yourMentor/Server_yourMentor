@@ -70,24 +70,24 @@
  *                   example: "Internal Server Error"
  */
 
+
 /**
  * @swagger
- * /post/{postId}:
+ * /page/{id}:
  *   get:
- *     summary: 특정 게시물 조회
- *     description: 게시물 ID를 통해 특정 게시물을 조회합니다.
- *     tags: [Post]
+ *     summary: "게시물 단일 조회"
+ *     description: "게시물과 해당 게시물의 댓글들을 조회합니다."
  *     parameters:
  *       - in: path
- *         name: postId
+ *         name: id
  *         required: true
+ *         description: "조회할 게시물의 ID"
  *         schema:
  *           type: integer
- *         description: 조회할 게시물의 ID
- *         example: 1
+ *     tags: [Page]  # 페이지 태그를 추가했습니다.
  *     responses:
  *       200:
- *         description: 게시물 조회 성공
+ *         description: "게시물과 댓글이 성공적으로 조회됨"
  *         content:
  *           application/json:
  *             schema:
@@ -104,11 +104,18 @@
  *                       example: 1
  *                     content:
  *                       type: string
- *                       example: "This is a sample post"
+ *                       example: "게시물 내용"
+ *                     img:
+ *                       type: string
+ *                       example: "image_url"
  *                     createdAt:
  *                       type: string
  *                       format: date-time
- *                       example: "2024-11-20T12:00:00.000Z"
+ *                       example: "2024-11-26T10:00:00Z"
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-11-26T10:10:00Z"
  *                     user:
  *                       type: object
  *                       properties:
@@ -117,9 +124,33 @@
  *                           example: 1
  *                         nick:
  *                           type: string
- *                           example: "johndoe"
+ *                           example: "user_nick"
+ *                     comments:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 1
+ *                           content:
+ *                             type: string
+ *                             example: "댓글 내용"
+ *                           createdAt:
+ *                             type: string
+ *                             format: date-time
+ *                             example: "2024-11-26T10:15:00Z"
+ *                           user:
+ *                             type: object
+ *                             properties:
+ *                               id:
+ *                                 type: integer
+ *                                 example: 2
+ *                               nick:
+ *                                 type: string
+ *                                 example: "comment_user"
  *       404:
- *         description: 게시물을 찾을 수 없음
+ *         description: "게시물이 존재하지 않음"
  *         content:
  *           application/json:
  *             schema:
@@ -132,7 +163,7 @@
  *                   type: string
  *                   example: "Post not found"
  *       500:
- *         description: 서버 에러
+ *         description: "서버 오류"
  *         content:
  *           application/json:
  *             schema:
@@ -143,7 +174,7 @@
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error"
+ *                   example: "Failed to fetch post"
  */
 
 

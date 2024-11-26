@@ -73,7 +73,7 @@
 
 /**
  * @swagger
- * /page/{id}:
+ * /{id}:
  *   get:
  *     summary: "게시물 단일 조회"
  *     description: "게시물과 해당 게시물의 댓글들을 조회합니다."
@@ -180,7 +180,7 @@
 
 /**
  * @swagger
- * /page/hashtag:
+ * /hashtag:
  *   get:
  *     summary: 해시태그 검색
  *     description: 특정 해시태그와 관련된 게시물을 검색합니다.

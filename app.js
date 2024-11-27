@@ -128,7 +128,7 @@ app.use((err, req, res, next) => {
 // };
 const corsOptions = {
   origin: (origin, callback) => {
-    const allowedOrigins = ['http://10.80.162.216', 'http://192.168.0.100', 'http://localhost:3000'];
+    const allowedOrigins = ['http://10.80.162.216', 'http://10.80.162.216:3000', 'http://localhost:3000'];
     
     if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);

@@ -141,10 +141,10 @@
 
 /**
  * @swagger
- * /auth/kakao/callback:
+ * /테스트:
  *   get:
- *     summary: 카카오 로그인 콜백
- *     description: 카카오 OAuth 인증 완료 후 콜백 처리.
+ *     summary: 테스트
+ *     description: 테스트.
  *     tags: [Auth]
  *     responses:
  *       302:
@@ -153,7 +153,7 @@
 
 /**
  * @swagger
- * /test:
+ * /auth/kakao/callback:
  *   get:
  *     summary: 카카오 로그인 콜백
  *     description: 카카오 OAuth 인증 완료 후 콜백 처리.

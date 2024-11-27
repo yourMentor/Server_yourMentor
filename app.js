@@ -79,14 +79,14 @@ const sessionOption = {
   secret: process.env.COOKIE_SECRET,
   cookie: {
     httpOnly: true,
-    // secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === 'production',
     secure: false,
   },
   store: new RedisStore({ client: redisClient }),
 };
 if (process.env.NODE_ENV === 'production') {
   sessionOption.proxy = true;
-  // sessionOption.cookie.secure = true;
+  sessionOption.cookie.secure = true;
 }
 app.use(session(sessionOption));
 

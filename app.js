@@ -122,9 +122,9 @@ app.use((err, req, res, next) => {
 });
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://221.168.22.205:3000', 'http://10.80.162.216:3000'], // 모든 도메인 허용
+  origin:'*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
+  credentials: false,
 };
 
 

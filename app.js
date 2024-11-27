@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 const passport = require('passport');
 const helmet = require('helmet');
 const hpp = require('hpp');
+const cors = require('cors');
 const redis = require('redis');
 const RedisStore = require('connect-redis').default;
 const { swaggerUi, swaggerSpec } = require('./swagger');
@@ -40,6 +41,8 @@ nunjucks.configure('views', {
   express: app,
   watch: true,
 });
+
+app.use(cors());
 
 sequelize
   .sync({ force: false })

@@ -121,11 +121,25 @@ app.use((err, req, res, next) => {
   });
 });
 
+// const corsOptions = {
+//   origin:'*',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   credentials: false,
+// };
 const corsOptions = {
-  origin:'*',
+  origin: (origin, callback) => {
+    const allowedOrigins = ['http://10.80.162.216', 'http://192.168.0.100', 'http://localhost:3000'];
+    
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS policy: Origin not allowed'), false);
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: false,
+  credentials: true,
 };
+
 
 
 app.use(cors(corsOptions));

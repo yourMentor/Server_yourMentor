@@ -122,20 +122,11 @@ app.use((err, req, res, next) => {
 });
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    // 허용할 도메인 설정 (배포된 클라이언트 도메인 추가)
-    const allowedOrigins = ['http://localhost:3000', 'https://your-production-domain.com'];
-
-    // 요청 도메인이 허용 목록에 없을 경우 차단
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // 허용할 메서드
-  credentials: true, // 쿠키 인증 정보를 허용
+  origin: '*', // 모든 도메인 허용
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
 };
+
 
 app.use(cors(corsOptions));
 

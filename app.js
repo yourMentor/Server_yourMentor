@@ -42,8 +42,6 @@ nunjucks.configure('views', {
   watch: true,
 });
 
-app.use(cors());
-
 sequelize
   .sync({ force: false })
   .then(() => {
@@ -122,6 +120,25 @@ app.use((err, req, res, next) => {
     stack: process.env.NODE_ENV !== 'production' ? err.stack : '🔒 스택 정보는 보안 상 제공되지 않습니다.',
   });
 });
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // 허용할 도메인 설정 (배포된 클라이언트 도메인 추가)
+    const allowedOrigins = ['http://localhost:3000', 'https://your-production-domain.com'];
+
+    // 요청 도메인이 허용 목록에 없을 경우 차단
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // 허용할 메서드
+  credentials: true, // 쿠키 인증 정보를 허용
+};
+
+app.use(cors(corsOptions));
+
 
 // app.listen(app.get('port'), '0.0.0.0', () => {
 //   console.log(`http://localhost:${app.get('port')}에서 대기중`);

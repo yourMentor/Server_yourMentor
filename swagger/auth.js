@@ -150,3 +150,15 @@
  *       302:
  *         description: 성공 시 홈 페이지로 리다이렉트
  */
+
+/**
+ * @swagger
+ * /test:
+ *   get:
+ *     summary: 카카오 로그인 콜백
+ *     description: 카카오 OAuth 인증 완료 후 콜백 처리.
+ *     tags: [Auth]
+ *     responses:
+ *       302:
+ *         description: 성공 시 홈 페이지로 리다이렉트
+ */

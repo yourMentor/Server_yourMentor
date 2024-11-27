@@ -65,6 +65,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/img', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
@@ -126,23 +127,23 @@ app.use((err, req, res, next) => {
 //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 //   credentials: false,
 // };
-const corsOptions = {
-  origin: (origin, callback) => {
-    const allowedOrigins = ['http://10.80.162.216', 'http://10.80.162.216:3000', 'http://localhost:3000'];
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     const allowedOrigins = ['http://10.80.162.216', 'http://10.80.162.216:3000', 'http://localhost:3000'];
     
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS policy: Origin not allowed'), false);
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-};
+//     if (allowedOrigins.includes(origin) || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('CORS policy: Origin not allowed'), false);
+//     }
+//   },
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   credentials: true,
+// };
 
 
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 
 // app.listen(app.get('port'), '0.0.0.0', () => {

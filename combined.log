@@ -22,3 +22,7 @@
 {"level":"error","message":"POST / 라우터가 없습니다."}
 {"level":"info","message":"hello"}
 {"level":"error","message":"GET /post 라우터가 없습니다."}
+{"level":"info","message":"hello"}
+{"level":"error","message":"GET /users/1 라우터가 없습니다."}
+{"level":"info","message":"hello"}
+{"level":"error","message":"GET /get/1 라우터가 없습니다."}

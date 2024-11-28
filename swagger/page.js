@@ -167,6 +167,9 @@
  *                       items:
  *                         type: object
  *                         properties:
+ *                           comment_nick:
+ *                             type: string
+ *                             description: "댓글 작성자 닉네임"
  *                           id:
  *                             type: integer
  *                             description: "댓글 ID"

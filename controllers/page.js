@@ -153,6 +153,7 @@ exports.getPostWithComments = async (req, res, next) => {
           nick: post.User.nick,
         },
         comments: post.Comments.map(comment => ({
+          comment_nick: comment.post_nick,
           id: comment.id,
           content: comment.content,
           createdAt: comment.createdAt,

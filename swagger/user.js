@@ -185,7 +185,7 @@
 
 /**
  * @swagger
- * /users/get/{userId}:
+ * /user/get/{userId}:
  *   get:
  *     summary: 특정 유저 정보 조회
  *     description: 주어진 ID를 가진 유저의 정보를 조회하며, 해당 유저가 작성한 게시글 목록도 함께 반환합니다.

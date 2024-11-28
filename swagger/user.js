@@ -1,25 +1,16 @@
 /**
  * @swagger
- * tags:
- *   name: User
- *   description: 유저 관리 API
- */
-
-/**
- * @swagger
  * /user/{id}/follow:
  *   post:
- *     summary: 유저 팔로우
- *     description: 로그인한 유저가 특정 유저를 팔로우합니다.
- *     tags: [User]
+ *     summary: 팔로우 처리
+ *     description: 로그인한 유저가 다른 유저를 팔로우합니다.
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
+ *         description: 팔로우할 유저의 ID
  *         required: true
  *         schema:
  *           type: integer
- *         description: 팔로우할 유저의 ID
- *         example: 2
  *     responses:
  *       200:
  *         description: 팔로우 성공
@@ -33,7 +24,7 @@
  *                   example: true
  *                 message:
  *                   type: string
- *                   example: "success"
+ *                   example: success
  *       404:
  *         description: 유저를 찾을 수 없음
  *         content:
@@ -46,9 +37,9 @@
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "User not found"
+ *                   example: User not found
  *       500:
- *         description: 서버 에러
+ *         description: 서버 오류
  *         content:
  *           application/json:
  *             schema:
@@ -59,97 +50,36 @@
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error"
+ *                   example: Error message
  */
-
-/**
- * @swagger
- * /user/{id}/unfollow:
- *   delete:
- *     summary: 유저 팔로우 취소
- *     description: 로그인한 유저가 특정 유저와의 팔로우 관계를 취소합니다.
- *     tags: [User]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: 팔로우를 취소할 유저의 ID
- *         example: 2
- *     responses:
- *       200:
- *         description: 팔로우 취소 성공
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: "Unfollow successful"
- *       404:
- *         description: 유저 또는 팔로우 관계를 찾을 수 없음
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "User not found"
- *       500:
- *         description: 서버 에러
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Internal Server Error"
- */
-
 
 /**
  * @swagger
  * /user/fix/{userId}:
  *   put:
  *     summary: 유저 정보 수정
- *     description: 유저의 닉네임과 비밀번호를 수정합니다.
- *     tags: [User]
+ *     description: 유저의 닉네임 및 비밀번호를 수정합니다.
  *     parameters:
- *       - in: path
- *         name: userId
+ *       - name: userId
+ *         in: path
+ *         description: 수정할 유저의 ID
  *         required: true
  *         schema:
  *           type: integer
- *         description: 수정할 유저의 ID
- *         example: 1
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               nick:
- *                 type: string
- *                 description: 새로운 닉네임
- *                 example: "newNickname"
- *               password:
- *                 type: string
- *                 description: 새로운 비밀번호
- *                 example: "newPassword123!"
+ *       - name: nick
+ *         in: body
+ *         description: 새 닉네임 (선택 사항)
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: newNick
+ *       - name: password
+ *         in: body
+ *         description: 새 비밀번호 (선택 사항)
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: newPassword123
  *     responses:
  *       200:
  *         description: 유저 정보 수정 성공
@@ -160,7 +90,7 @@
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "User information updated successfully"
+ *                   example: User information updated successfully
  *       404:
  *         description: 유저를 찾을 수 없음
  *         content:
@@ -170,9 +100,9 @@
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "User not found"
+ *                   example: User not found
  *       500:
- *         description: 서버 에러
+ *         description: 서버 오류
  *         content:
  *           application/json:
  *             schema:
@@ -180,26 +110,25 @@
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Error updating user information"
+ *                   example: Error updating user information
  */
 
 /**
  * @swagger
  * /user/get/{userId}:
  *   get:
- *     summary: 특정 유저 정보 조회
- *     description: 주어진 ID를 가진 유저의 정보를 조회하며, 해당 유저가 작성한 게시글 목록도 함께 반환합니다.
- *     tags: [User]
+ *     summary: 유저 정보 조회
+ *     description: 특정 유저의 정보와 게시글, 팔로워 및 팔로우 수를 조회합니다.
  *     parameters:
- *       - in: path
- *         name: userId
- *         required: true
+ *       - name: userId
+ *         in: path
  *         description: 조회할 유저의 ID
+ *         required: true
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: 성공적으로 유저 정보를 반환
+ *         description: 유저 정보 조회 성공
  *         content:
  *           application/json:
  *             schema:
@@ -207,24 +136,45 @@
  *               properties:
  *                 id:
  *                   type: integer
+ *                   example: 1
+ *                 email:
+ *                   type: string
+ *                   example: user@example.com
  *                 nick:
  *                   type: string
+ *                   example: userNick
+ *                 provider:
+ *                   type: string
+ *                   example: google
+ *                 snsId:
+ *                   type: string
+ *                   example: sns12345
  *                 posts:
  *                   type: array
  *                   items:
  *                     type: object
  *                     properties:
- *                       id:
- *                         type: integer
  *                       post_nick:
  *                         type: string
+ *                         example: postNick
+ *                       id:
+ *                         type: integer
+ *                         example: 1
  *                       content:
  *                         type: string
+ *                         example: Post content example
  *                       img:
  *                         type: string
+ *                         example: /img/sample.jpg
  *                       createdAt:
  *                         type: string
- *                         format: date-time
+ *                         example: 2024-11-28T12:00:00Z
+ *                 followerCount:
+ *                   type: integer
+ *                   example: 100
+ *                 followingCount:
+ *                   type: integer
+ *                   example: 150
  *       404:
  *         description: 유저를 찾을 수 없음
  *         content:
@@ -234,9 +184,9 @@
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "User not found"
+ *                   example: User not found
  *       500:
- *         description: 서버 에러 발생
+ *         description: 서버 오류
  *         content:
  *           application/json:
  *             schema:
@@ -244,20 +194,18 @@
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error"
+ *                   example: Error fetching user information
  */
-
 
 /**
  * @swagger
  * /user/get-all:
  *   get:
- *     summary: 전체 유저 조회
- *     description: 모든 유저의 정보를 조회합니다 (비밀번호 제외).
- *     tags: [User]
+ *     summary: 모든 유저 조회
+ *     description: 모든 유저의 정보를 조회합니다.
  *     responses:
  *       200:
- *         description: 전체 유저 조회 성공
+ *         description: 유저 목록 조회 성공
  *         content:
  *           application/json:
  *             schema:
@@ -268,19 +216,20 @@
  *                   id:
  *                     type: integer
  *                     example: 1
+ *                   email:
+ *                     type: string
+ *                     example: user@example.com
  *                   nick:
  *                     type: string
- *                     example: "nickname"
- *                   createdAt:
+ *                     example: userNick
+ *                   provider:
  *                     type: string
- *                     format: date-time
- *                     example: "2024-01-01T12:00:00.000Z"
- *                   updatedAt:
+ *                     example: google
+ *                   snsId:
  *                     type: string
- *                     format: date-time
- *                     example: "2024-01-02T12:00:00.000Z"
+ *                     example: sns12345
  *       500:
- *         description: 서버 에러
+ *         description: 서버 오류
  *         content:
  *           application/json:
  *             schema:
@@ -288,6 +237,5 @@
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Error fetching all users"
+ *                   example: Error fetching all users
  */
-

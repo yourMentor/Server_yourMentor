@@ -61,7 +61,7 @@ exports.getUserInfo = async (req, res) => {
       include: [
         {
           model: Post,
-          attributes: ['id', 'content', 'img', 'createdAt'], // 게시글 정보
+          attributes: ['post_nick', 'id', 'content', 'img', 'createdAt'], // 게시글 정보
         },
         {
           model: User,

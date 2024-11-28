@@ -1,20 +1,12 @@
 /**
  * @swagger
- * tags:
- *   name: Page
- *   description: 게시물 및 해시태그 검색 관련 API
- */
-
-/**
- * @swagger
  * /:
  *   get:
- *     summary: 모든 게시물 조회
- *     description: 등록된 모든 게시물을 최신순으로 조회합니다.
- *     tags: [Page]
+ *     summary: "메인 페이지의 게시글 목록 가져오기"
+ *     description: "메인 페이지에서 최신 게시글을 가져옵니다."
  *     responses:
  *       200:
- *         description: 게시물 조회 성공
+ *         description: "게시글 목록을 성공적으로 가져옴"
  *         content:
  *           application/json:
  *             schema:
@@ -22,10 +14,68 @@
  *               properties:
  *                 success:
  *                   type: boolean
- *                   example: true
+ *                   description: "API 호출 성공 여부"
  *                 title:
  *                   type: string
- *                   example: "NodeBird"
+ *                   description: "페이지 제목"
+ *                 twits:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       post_nick:
+ *                         type: string
+ *                         description: "게시글 제목"
+ *                       id:
+ *                         type: integer
+ *                         description: "게시글 ID"
+ *                       content:
+ *                         type: string
+ *                         description: "게시글 내용"
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         description: "게시글 작성 시간"
+ *                       user:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             description: "작성자 ID"
+ *                           nick:
+ *                             type: string
+ *                             description: "작성자 닉네임"
+ *       500:
+ *         description: "서버 오류 발생"
+ */
+
+/**
+ * @swagger
+ * /hashtag:
+ *   get:
+ *     summary: "해시태그로 검색된 게시글 가져오기"
+ *     description: "특정 해시태그로 검색된 게시글을 가져옵니다."
+ *     parameters:
+ *       - name: hashtag
+ *         in: query
+ *         description: "검색할 해시태그"
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: "검색된 게시글을 반환"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: "API 호출 성공 여부"
+ *                 title:
+ *                   type: string
+ *                   description: "페이지 제목 (검색된 해시태그)"
  *                 twits:
  *                   type: array
  *                   items:
@@ -33,61 +83,45 @@
  *                     properties:
  *                       id:
  *                         type: integer
- *                         description: 게시물 ID
- *                         example: 1
+ *                         description: "게시글 ID"
  *                       content:
  *                         type: string
- *                         description: 게시물 내용
- *                         example: "안녕하세요. 첫 번째 게시물입니다!"
+ *                         description: "게시글 내용"
  *                       createdAt:
  *                         type: string
  *                         format: date-time
- *                         description: 게시물 작성 시간
- *                         example: "2024-11-18T12:34:56.000Z"
+ *                         description: "게시글 작성 시간"
  *                       user:
  *                         type: object
  *                         properties:
  *                           id:
  *                             type: integer
- *                             description: 작성자 ID
- *                             example: 2
+ *                             description: "작성자 ID"
  *                           nick:
  *                             type: string
- *                             description: 작성자 닉네임
- *                             example: "작성자닉네임"
+ *                             description: "작성자 닉네임"
+ *       400:
+ *         description: "해시태그 파라미터가 누락됨"
  *       500:
- *         description: 서버 에러
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Internal Server Error"
+ *         description: "서버 오류 발생"
  */
-
 
 /**
  * @swagger
  * /{id}:
  *   get:
- *     summary: "게시물 단일 조회"
- *     description: "게시물과 해당 게시물의 댓글들을 조회합니다."
+ *     summary: "특정 게시글과 댓글 가져오기"
+ *     description: "게시글과 해당 게시글에 달린 댓글들을 가져옵니다."
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
+ *         description: "게시글 ID"
  *         required: true
- *         description: "조회할 게시물의 ID"
  *         schema:
  *           type: integer
- *     tags: [Page]  # 페이지 태그를 추가했습니다.
  *     responses:
  *       200:
- *         description: "게시물과 댓글이 성공적으로 조회됨"
+ *         description: "게시글과 댓글을 반환"
  *         content:
  *           application/json:
  *             schema:
@@ -95,36 +129,39 @@
  *               properties:
  *                 success:
  *                   type: boolean
- *                   example: true
+ *                   description: "API 호출 성공 여부"
  *                 post:
  *                   type: object
  *                   properties:
+ *                     post_nick:
+ *                       type: string
+ *                       description: "게시글 작성자 닉네임"
  *                     id:
  *                       type: integer
- *                       example: 1
+ *                       description: "게시글 ID"
  *                     content:
  *                       type: string
- *                       example: "게시물 내용"
+ *                       description: "게시글 내용"
  *                     img:
  *                       type: string
- *                       example: "image_url"
+ *                       description: "게시글 이미지"
  *                     createdAt:
  *                       type: string
  *                       format: date-time
- *                       example: "2024-11-26T10:00:00Z"
+ *                       description: "게시글 작성 시간"
  *                     updatedAt:
  *                       type: string
  *                       format: date-time
- *                       example: "2024-11-26T10:10:00Z"
+ *                       description: "게시글 수정 시간"
  *                     user:
  *                       type: object
  *                       properties:
  *                         id:
  *                           type: integer
- *                           example: 1
+ *                           description: "작성자 ID"
  *                         nick:
  *                           type: string
- *                           example: "user_nick"
+ *                           description: "작성자 닉네임"
  *                     comments:
  *                       type: array
  *                       items:
@@ -132,134 +169,25 @@
  *                         properties:
  *                           id:
  *                             type: integer
- *                             example: 1
+ *                             description: "댓글 ID"
  *                           content:
  *                             type: string
- *                             example: "댓글 내용"
+ *                             description: "댓글 내용"
  *                           createdAt:
  *                             type: string
  *                             format: date-time
- *                             example: "2024-11-26T10:15:00Z"
+ *                             description: "댓글 작성 시간"
  *                           user:
  *                             type: object
  *                             properties:
  *                               id:
  *                                 type: integer
- *                                 example: 2
+ *                                 description: "댓글 작성자 ID"
  *                               nick:
  *                                 type: string
- *                                 example: "comment_user"
+ *                                 description: "댓글 작성자 닉네임"
  *       404:
- *         description: "게시물이 존재하지 않음"
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Post not found"
+ *         description: "게시글을 찾을 수 없음"
  *       500:
- *         description: "서버 오류"
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Failed to fetch post"
- */
-
-
-/**
- * @swagger
- * /hashtag:
- *   get:
- *     summary: 해시태그 검색
- *     description: 특정 해시태그와 관련된 게시물을 검색합니다.
- *     tags: [Page]
- *     parameters:
- *       - in: query
- *         name: hashtag
- *         required: true
- *         schema:
- *           type: string
- *         description: 검색할 해시태그
- *         example: "NodeJS"
- *     responses:
- *       200:
- *         description: 해시태그 검색 성공
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 title:
- *                   type: string
- *                   example: "NodeJS | NodeBird"
- *                 twits:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                         description: 게시물 ID
- *                         example: 1
- *                       content:
- *                         type: string
- *                         description: 게시물 내용
- *                         example: "해시태그 검색과 관련된 게시물입니다."
- *                       createdAt:
- *                         type: string
- *                         format: date-time
- *                         description: 게시물 작성 시간
- *                         example: "2024-11-18T12:34:56.000Z"
- *                       user:
- *                         type: object
- *                         properties:
- *                           id:
- *                             type: integer
- *                             description: 작성자 ID
- *                             example: 2
- *                           nick:
- *                             type: string
- *                             description: 작성자 닉네임
- *                             example: "작성자닉네임"
- *       400:
- *         description: 해시태그 파라미터 누락
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Hashtag query parameter is missing"
- *       500:
- *         description: 서버 에러
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: "Internal Server Error"
+ *         description: "서버 오류 발생"
  */

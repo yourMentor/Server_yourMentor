@@ -11,7 +11,7 @@ router.post('/:id/follow', isLoggedIn, follow);
 router.put('/fix/:userId', verifyToken, isLoggedIn, updateUser);
 
 // PUT /user/get/:userId - 유저 정보 읽기
-router.get('/get/:userId', verifyToken, isLoggedIn, getUserInfo);
+router.get('/get/:userId', getUserInfo);
 
 // Get /user/get-all - 유저 정보 읽기
 router.get('/get-all', verifyToken, isLoggedIn, getAllUsers);

@@ -11,7 +11,8 @@ exports.renderMain = async (req, res, next) => {
       order: [['createdAt', 'DESC']], 
     });
 
-    const twits = posts.map(({ id, content, createdAt, User: { id: userId, nick } }) => ({
+    const twits = posts.map(({ post_nick, id, content, createdAt, User: { id: userId, nick } }) => ({
+      post_nick,
       id,
       content,
       createdAt,
@@ -90,6 +91,7 @@ exports.getPostById = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       post: {
+        post_nick: post.post_nick,
         id: post.id,
         content: post.content,
         createdAt: post.createdAt,
@@ -140,6 +142,7 @@ exports.getPostWithComments = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       post: {
+        post_nick: post.post_nick,
         id: post.id,
         content: post.content,
         img: post.img,
